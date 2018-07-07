@@ -4,22 +4,22 @@ from pprint import pprint
 
 json_data = json.loads(open(argv[1]).read())
 
-def getLeaves(data, list):
+def get_leaves(data, return_list):
     for dic in data:
         if "leaves" in dic:
-            list.extend(dic["leaves"])
+            return_list.extend(dic["leaves"])
         if "branches" in dic:
-            getLeaves(dic["branches"], list)
-    return(list)
+            get_leaves(dic["branches"], return_list)
+    return return_list
 
-def leavesPerNode(data, list):
+def leaves_per_node(data, return_list):
     for dic in data:
         if "branches" in dic:
-            leavesPerNode(dic["branches"], list)
-            list.append(dic["id"] + " " + str(getLeaves(dic["branches"], [])))
+            return_list.append((dic["id"], get_leaves(dic["branches"], [])))
+            leaves_per_node(dic["branches"], return_list)
         if "leaves" in dic:
-            list.append(dic["id"] + " " + str(dic["leaves"]))
-    return(list)
+            return_list.append((dic["id"], dic["leaves"]))
+    return return_list
 
-pprint("Leaves: " + str(getLeaves(json_data, [])))
-print("Leaves per node: " + str(leavesPerNode(json_data, [])))
+print("Leaves: ", get_leaves(json_data, []))
+print("Leaves per node:", leaves_per_node(json_data, []))
