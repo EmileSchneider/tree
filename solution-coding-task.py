@@ -2,7 +2,8 @@ from sys import argv
 import json
 from pprint import pprint
 
-json_data = json.loads(open(argv[1]).read())
+file = open(argv[1])
+json_data = json.loads(file.read())
 
 def get_leaves(data, return_list):
     for dic in data:
@@ -20,6 +21,8 @@ def leaves_per_node(data, return_list):
         if "leaves" in dic:
             return_list.append((dic["id"], dic["leaves"]))
     return return_list
+
+file.close()
 
 print("Leaves: ", get_leaves(json_data, []))
 print("Leaves per node:", leaves_per_node(json_data, []))
