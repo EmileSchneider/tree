@@ -9,13 +9,17 @@ def getLeaves(data, list):
         if "leaves" in dic:
             list.extend(dic["leaves"])
         if "branches" in dic:
-            getLeavesList(dic["branches"], list)
+            getLeaves(dic["branches"], list)
     return(list)
 
-def leavesPerNode(data):
+def leavesPerNode(data, list):
     for dic in data:
         if "branches" in dic:
-            leavesPerNode(dic["branches"])
-            print(dic["id"] + " " + str(getLeavesList(dic["branches"], [])))
+            leavesPerNode(dic["branches"], list)
+            list.append(dic["id"] + " " + str(getLeaves(dic["branches"], [])))
         if "leaves" in dic:
-            print(dic["id"] + " " + str(dic["leaves"]))
+            list.append(dic["id"] + " " + str(dic["leaves"]))
+    return(list)
+
+pprint("Leaves: " + str(getLeaves(json_data, [])))
+print("Leaves per node: " + str(leavesPerNode(json_data, [])))
