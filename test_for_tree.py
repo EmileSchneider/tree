@@ -1,6 +1,5 @@
 from sys import argv
 import json
-from pprint import pprint
 
 path_to_json_file = argv[1]
 #check if argument is path
@@ -49,4 +48,4 @@ def count_leaves(json_tree):
             # if
             count_leaves(json_tree.index(data))
 
-    return(leaves_list)        
+    return(leaves_list)
